@@ -11,6 +11,9 @@ builder.Services.AddDbContext<ApplicationDbContext> (option => option.UseSqlServ
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(p => p.AddPolicy("MyCors", build => {
+    build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
 
 builder.Services.Configure<ApiBehaviorOptions>(option => {
     option.InvalidModelStateResponseFactory = ActionContext => 
@@ -30,6 +33,8 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
+
+app.UseCors("MyCors");
 
 app.UseMiddleware<ServerErrorExceptionMiddle>();
 

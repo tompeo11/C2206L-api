@@ -16,7 +16,6 @@ namespace api.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-
         public ProductController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
@@ -28,20 +27,9 @@ namespace api.Controllers
             [FromQuery] ProductRequestParams productRequestParams,
             [FromQuery] PaginationParams pagination) 
         {
-            Func<IQueryable<Product>, IOrderedQueryable<Product>> sortQuery = productRequestParams.sort switch
-            {
-                "priceAsc" => p => p.OrderBy(i => i.Price),
-                "priceDesc" => p => p.OrderByDescending(i => i.Price),
-                "typeAsc" => p => p.OrderBy(i => i.ProductType.Id),
-                "typeDesc" => p => p.OrderByDescending(i => i.ProductType.Id),
-                "brandAsc" => p => p.OrderBy(i => i.ProductBrand.Id),
-                "brandDesc" => p => p.OrderByDescending(i => i.ProductBrand.Id),
-                _ => p => p.OrderBy(i => i.Id)
-            };
-
             IQueryable<Product> query = _unitOfWork.ProductRepository.QueryWithCondition(
-                filter: x => (!productRequestParams.typeId.HasValue || x.ProductTypeId == productRequestParams.typeId) && (!productRequestParams.brandId.HasValue || x.ProductBrandId == productRequestParams.typeId),
-                orderBy: sortQuery,
+                filter: BuildFilter(productRequestParams),
+                orderBy: BuildSortQuery(productRequestParams),
                 includeProperties: "ProductType,ProductBrand"
             );
 
@@ -51,14 +39,37 @@ namespace api.Controllers
 
             List<ReturnProduct> returnData = _mapper.Map<List<Product>, List<ReturnProduct>>(query.ToList());
 
-
-
             return Ok(new PagedList<ReturnProduct>(
                 pagination.PageNumber,
                 pagination.PageSize,
                 totalRecord,
                 returnData
             ));
+        }
+
+        private Func<IQueryable<Product>, IOrderedQueryable<Product>> BuildSortQuery (ProductRequestParams productRequestParams)
+        {
+            return  productRequestParams.sort switch
+            {
+                "priceAsc" => p => p.OrderBy(i => i.Price),
+                "priceDesc" => p => p.OrderByDescending(i => i.Price),
+                "typeAsc" => p => p.OrderBy(i => i.ProductType.Id),
+                "typeDesc" => p => p.OrderByDescending(i => i.ProductType.Id),
+                "brandAsc" => p => p.OrderBy(i => i.ProductBrand.Id),
+                "brandDesc" => p => p.OrderByDescending(i => i.ProductBrand.Id),
+                _ => p => p.OrderBy(i => i.Name)
+            };
+        }
+
+        private Expression<Func<Product, bool>> BuildFilter (ProductRequestParams productRequestParams)
+        {
+            string search = productRequestParams.Search;
+            int? typeId = productRequestParams.typeId;
+            int? brandId = productRequestParams.brandId;
+
+            return x => (string.IsNullOrEmpty(search) || x.Name.ToLower().Contains(search))
+                        && (!typeId.HasValue || x.ProductTypeId == typeId) 
+                        && (!brandId.HasValue || x.ProductBrandId == typeId);
         }
 
         [HttpGet("{id}")]
@@ -75,17 +86,6 @@ namespace api.Controllers
             ReturnProduct dto = _mapper.Map<ReturnProduct>(products);
 
             return Ok(dto);
-
-            // return Ok(new ReturnProduct
-            // {
-            //     Id = products.Id,
-            //     Name = products.Name,
-            //     Description = products.Description,
-            //     Price = products.Price,
-            //     PictureUrl = products.PictureUrl,
-            //     ProductBrand = products.ProductBrand.Name,
-            //     ProductType = products.ProductType.Name
-            // });
         }
 
         [HttpGet("brands")]
