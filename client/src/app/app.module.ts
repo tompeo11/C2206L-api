@@ -7,17 +7,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ShopComponent } from './shop/shop.component';
 import { AlertModule } from 'ngx-bootstrap/alert';
-import { TestComponent } from './test/test.component';
 
 import { HttpClientModule } from '@angular/common/http';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ShopModule } from './shop/shop.module';
+import { SharedModule } from './shared/shared.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    TestComponent
   ],
   imports: [
     BrowserModule,
@@ -25,8 +24,9 @@ import { ShopModule } from './shop/shop.module';
     BrowserAnimationsModule,
     AlertModule.forRoot(),
     HttpClientModule,
+    ShopModule,
+    SharedModule,
     FontAwesomeModule,
-    ShopModule
   ],
   providers: [],
   bootstrap: [AppComponent]
