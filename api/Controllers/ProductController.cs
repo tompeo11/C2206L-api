@@ -69,7 +69,7 @@ namespace api.Controllers
 
             return x => (string.IsNullOrEmpty(search) || x.Name.ToLower().Contains(search))
                         && (!typeId.HasValue || x.ProductTypeId == typeId) 
-                        && (!brandId.HasValue || x.ProductBrandId == typeId);
+                        && (!brandId.HasValue || x.ProductBrandId == brandId);
         }
 
         [HttpGet("{id}")]

@@ -1,60 +1,97 @@
-<div class="container ">
-    <div class="row">
-        <section class="col-3 ">
-            <h5 class="text-warning ms-3 ">Sort</h5>
-            <select class="custom-select mb-3 ">
-                <option value="">Alphabetical</option>
-                <option value="">Price: Low to High</option>
-                <option value="">Price: High to Loiw</option>
-            </select>
+<div class="container">
+  <div class="row">
+    <section class="col-3">
+      <h5 class="text-warning ms-3">Sort</h5>
+      <select class="custom-select mb-3" (change)="onSortSelect($event)">
+        <option *ngFor="let item of sortOptions" [value]="item.value">
+          {{ item.name }}
+        </option>
+      </select>
 
-            <h5 class="text-warning ms-3">Brands</h5>
-            <ul class="list-group ">
-                <li class="list-group-item" 
-                *ngFor="let item of brands" 
-                [value] = "item.id"
-                (click) = "onSelectProductType(item.id)"
-                [class.active] = "item.id === typeIdSelected"
-                >
-                {{item.name}}
-              </li>
-            </ul>
+      <h5 class="text-warning ms-3">Types</h5>
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let item of types"
+          [value]="item.id"
+          (click)="onSelectProductType(item.id)"
+          [class.active]="item.id === typeIdSelected"
+        >
+          {{ item.name }}
+        </li>
+      </ul>
 
-            <h5 class="text-warning ms-3">Type</h5>
-            <ul class="list-group ">
-                <li class="list-group-item" *ngFor="let item of types">{{item.name}}</li>
-            </ul>
+      <h5 class="text-warning ms-3">Brands</h5>
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let item of brands"
+          [value]="item.id"
+          (click)="onSelectProductBrand(item.id)"
+          [class.active]="item.id === brandIdSelected"
+        >
+          {{ item.name }}
+        </li>
+      </ul>
+    </section>
 
-        </section>
-
-        <section class="col-9">
-          <div class="d-flex justify-content-between align-items-center pb-2">
-            <header>
-              <span>Showing <strong>1</strong> of <strong>16</strong> Results</span>
-            </header>
-            <div class="row">
-              <div class="col ">
-                <input type="text" class="form-control my-2 " placeholder="Search" style="width: 200px;">
-              </div>
-              <div class="col">
-                <button class="btn btn-outline-primary my-2 ">
-                  <fa-icon [icon] = "faSearch"></fa-icon>
-                </button>
-              </div>
-              <div class="col">
-                <button class="btn btn-outline-success  my-2 ">
-                  <fa-icon [icon] = "faRefresh"></fa-icon>
-                </button>
-              </div>
-            </div>
+    <section class="col-9">
+      <div class="d-flex justify-content-between align-items-center pb-2">
+        <header>
+          <span *ngIf="this.totalCount && this.totalCount > 0">
+            Showing 
+            <strong>
+              {{(this.pageNumber - 1) * this.pageSize + 1}}
+              -
+              {{this.pageNumber * this.pageSize > this.totalCount ? this.totalCount : this.pageNumber * this.pageSize}}
+            </strong>
+             of <strong>{{this.totalCount}}</strong>Results
+          </span>
+          
+          <span *ngIf="this.totalCount === 0">
+            There are <strong>0</strong> result for this filter
+          </span>
+        </header>
+        <div class="row">
+          <div class="col">
+            <input
+              type="text"
+              class="form-control my-2"
+              placeholder="Search"
+              style="width: 200px"
+            />
           </div>
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                <div class="col">
-                  <div *ngFor="let item of products">
-                    <img src="{{item.pictureUrl}}" alt="{{item.id}}">
-                  </div>
-                </div>
-              </div>
-        </section>
-    </div>
+          <div class="col">
+            <button class="btn btn-primary my-2">
+              <fa-icon [icon]="faSearch"></fa-icon>
+            </button>
+          </div>
+          <div class="col">
+            <button class="btn btn-success my-2">
+              <fa-icon [icon]="faRefresh"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="col" *ngFor="let item of products">
+          <app-product-item [product]="item"></app-product-item>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center py-4" *ngIf="this.totalCount && this.pageSize">
+        <pagination
+          [boundaryLinks]="true"
+          [totalItems]="this.totalCount"
+          [itemsPerPage]="this.pageSize"
+          (pageChanged)="onPageChanged($event)"
+          previousText="&lsaquo;"
+          nextText="&rsaquo;"
+          firtText="&laquo;"
+          lastText="&raquo;"
+          >
+        </pagination>
+      </div>
+    </section>
+  </div>
 </div>
