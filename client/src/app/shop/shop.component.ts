@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IPagination } from '../models/IPagination';
 import { ShopService } from './shop.service';
@@ -13,6 +13,8 @@ import { IType } from '../models/type';
   styleUrls: ['./shop.component.css'],
 })
 export class ShopComponent implements OnInit {
+  @ViewChild('search') searchElement : ElementRef | undefined;
+
   apiUrl = 'https://localhost:5001/api/product';
 
   faRefresh = faRefresh;
@@ -24,11 +26,12 @@ export class ShopComponent implements OnInit {
 
   typeIdSelected: number = 0;
   brandIdSelected: number = 0;
-
   sortSelected = 'name';
   totalCount = 0;
   pageNumber = 1;
   pageSize = 3;
+  search = '';
+
   sortOptions = [
     {name: 'Alphabetical', value: 'name'},
     {name: 'Price: Low to High', value: 'priceAsc'},
@@ -45,7 +48,7 @@ export class ShopComponent implements OnInit {
 
   getProducts(): void {
     this.shopService
-      .getProducts(this.sortSelected, this.pageNumber, this.pageSize, this.typeIdSelected, this.brandIdSelected)
+      .getProducts(this.sortSelected, this.pageNumber, this.pageSize, this.typeIdSelected, this.brandIdSelected, this.search)
       .subscribe({
         next: (response: IPagination | null) => {
           this.products = response!.data;
@@ -86,8 +89,25 @@ export class ShopComponent implements OnInit {
     this.getProducts();
   }
 
-  onPageChanged(event: any){
-    this.pageNumber = event.page;
+  onPageChanged(eventEmitterNumber: number){
+    this.pageNumber = eventEmitterNumber;
+    this.getProducts();
+  }
+
+  onSearch(){
+    this.search = this.searchElement?.nativeElement.value;
+    this.getProducts();
+  }
+
+  onReset(){
+    this.searchElement!.nativeElement.value = '';
+    this.typeIdSelected = 0;
+    this.brandIdSelected = 0;
+    this.sortSelected = 'name';
+    this.totalCount = 0;
+    this.pageNumber = 1;
+    this.pageSize = 3;
+    this.search = '';
     this.getProducts();
   }
 }

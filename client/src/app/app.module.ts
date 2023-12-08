@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ShopComponent } from './shop/shop.component';
-import { AlertModule } from 'ngx-bootstrap/alert';
 
 import { HttpClientModule } from '@angular/common/http';
 import { ShopModule } from './shop/shop.module';
@@ -21,9 +20,7 @@ import { SharedModule } from './shared/shared.module';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    AlertModule.forRoot(),
     HttpClientModule,
-    ShopModule,
     SharedModule,
   ],
   providers: [],
