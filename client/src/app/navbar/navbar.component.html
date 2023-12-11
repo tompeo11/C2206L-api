@@ -1,25 +1,3 @@
-<!-- <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom bg-primary ">
-  <a href="/">
-    <img src="/assets/images/logo.png" alt="logo" style="max-height: 70px;">
-  </a>
-
-  <nav class="d-flex flex-grow-1 justify-content-center text-uppercase" style="font-size: large;">
-    <a href="#" class="me-3 py-2 link-body-emphasis text-decoration-none">Home</a>
-    <a href="#" class="me-3 py-2 link-body-emphasis text-decoration-none">Shop</a>
-    <a href="#" class="me-3 py-2 link-body-emphasis text-decoration-none">Contact</a>
-  </nav>
-
-  <div class="d-flex align-items-center">
-    <a href="#" class="position-relative  mx-5 text-decoration-none text-dark ">
-      <fa-icon [icon]="faCartShopping" size="2x"></fa-icon>
-      <div class="cart-no">5</div>
-    </a>
-
-    <a href="#" class="btn btn-outline-primary me-3">Login</a>
-    <a href="#" class="btn btn-outline-primary me-3">Sign up</a>
-  </div>
-</div> -->
-
 <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="/">
@@ -31,24 +9,27 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav me-auto d-flex flex-grow-1 justify-content-center text-uppercase" style="max-height: 70px;">
         <li class="nav-item">
-          <a class="me-3 py-2 link-body-emphasis text-decoration-none" routerLink="/home">Home</a>
+          <a class="me-3 py-2 text-decoration-none" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="me-3 py-2 link-body-emphasis text-decoration-none" routerLink="/">Shop</a>
+          <a class="me-3 py-2 text-decoration-none" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Shop</a>
         </li>
         <li class="nav-item">
-          <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="#">Contact</a>
+          <a class="me-3 py-2 text-decoration-none" routerLink="/test-error" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Errors</a>
+        </li>
+        <li class="nav-item">
+          <a class="me-3 py-2 text-decoration-none" href="/contact" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Contact</a>
         </li>
       </ul>
 
       <div class="d-flex align-items-center">
         <a href="#" class="position-relative  mx-5 text-decoration-none text-dark ">
           <fa-icon [icon]="faCartShopping" size="2x"></fa-icon>
-          <div class="cart-no">5</div>
+          <div class="cart-no">5</div>  
         </a>
     
         <a href="#" class="btn btn-outline-secondary  me-3">Login</a>
-        <a href="#" class="btn btn-outline-secondary  me-3">Sign up 111</a>
+        <a href="#" class="btn btn-outline-secondary  me-3">Sign up</a>
       </div>
     </div>
   </div>

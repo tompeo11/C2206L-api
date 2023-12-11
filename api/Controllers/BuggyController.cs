@@ -20,23 +20,18 @@ namespace api.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        //404 not found
-
-        //400 bad request
         [HttpGet("badrequest")]
         public ActionResult GetBadRequest()
         {
             return BadRequest(new ErrorResponse(400));
         }
 
-        //400 validation error
         [HttpGet("badrequest/{id}")]
         public ActionResult GetValidationError(int id)
         {
             return Ok();
         }
 
-        //500 server error
         [HttpGet("servererror")]
         public async Task<ActionResult>  GetServerError()
         {

@@ -4,12 +4,13 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { IBrand } from '../models/brand';
 import { IType } from '../models/type';
+import { IProduct } from '../models/product';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ShopService {
-  apiUrl = 'https://localhost:5001/api/product';
+  apiUrl = 'https://localhost:5001/api';
 
   constructor(private http: HttpClient) {}
 
@@ -32,14 +33,18 @@ export class ShopService {
     params = params.append('pageNumber', pageNumber.toString());
     params = params.append('pageSize', pageSize.toString());
 
-    return this.http.get<IPagination>(this.apiUrl, { params });
+    return this.http.get<IPagination>(this.apiUrl + '/product', { params });
   }
 
   getBrands(): Observable<IBrand[]> {
-    return this.http.get<IBrand[]>(this.apiUrl + '/brands');
+    return this.http.get<IBrand[]>(this.apiUrl + '/product/brands');
   }
 
   getTypes(): Observable<IType[]> {
-    return this.http.get<IType[]>(this.apiUrl + '/types');
+    return this.http.get<IType[]>(this.apiUrl + '/product/types');
+  }
+
+  getProductById(id: number) : Observable<IProduct> {
+    return this.http.get<IProduct>(this.apiUrl + '/product/' + id)
   }
 }
