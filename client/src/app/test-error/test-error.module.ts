@@ -5,6 +5,7 @@ import { ServerErrorComponent } from './server-error/server-error.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { RouterModule } from '@angular/router';
 import { TestErrorRoutes } from './test-error.routing';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -16,6 +17,7 @@ import { TestErrorRoutes } from './test-error.routing';
   ],
   imports: [
     CommonModule,
+    SharedModule,
     RouterModule.forChild(TestErrorRoutes),
 
   ]

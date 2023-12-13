@@ -7,9 +7,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ShopComponent } from './shop/shop.component';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ShopModule } from './shop/shop.module';
 import { SharedModule } from './shared/shared.module';
+import { ErrorInterceptor } from './middleware/error.interceptor';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -22,8 +24,13 @@ import { SharedModule } from './shared/shared.module';
     BrowserAnimationsModule,
     HttpClientModule,
     SharedModule,
+    NgxSpinnerModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+  ],
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule { }
