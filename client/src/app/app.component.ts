@@ -1,6 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { BasketService } from './basket/basket.service';
 
 @Component({
   selector: 'app-root',
@@ -8,13 +7,14 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  constructor(private spinnerService : NgxSpinnerService) {}
+  constructor(private basketService: BasketService) {
+  }
 
   ngOnInit(): void {
-    this.spinnerService.show();
+    var basketId = localStorage.getItem('basket_id');
 
-    setTimeout(() => {
-      this.spinnerService.hide();
-    }, 2000);
+    if (basketId) {
+      this.basketService.getBasket(basketId).subscribe(() => {});
+    }
   }
 }

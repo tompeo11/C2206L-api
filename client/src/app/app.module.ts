@@ -12,11 +12,12 @@ import { ShopModule } from './shop/shop.module';
 import { SharedModule } from './shared/shared.module';
 import { ErrorInterceptor } from './middleware/error.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { LoadingInterceptor } from './middleware/loading.interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -28,9 +29,10 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
   ],
   bootstrap: [
-    AppComponent
+    AppComponent,
   ]
 })
 export class AppModule { }

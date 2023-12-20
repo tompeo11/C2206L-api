@@ -4,6 +4,7 @@ using api.Exceptions;
 using api.Middleware;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(p => p.AddPolicy("MyCors", build => {
     build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
 }));
+builder.Services.AddSingleton<IConnectionMultiplexer>(_ => {
+    var redisUrl = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
+    return ConnectionMultiplexer.Connect(redisUrl);
+});
 
 builder.Services.Configure<ApiBehaviorOptions>(option => {
     option.InvalidModelStateResponseFactory = ActionContext => 
@@ -30,6 +35,7 @@ builder.Services.Configure<ApiBehaviorOptions>(option => {
 });
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
@@ -46,6 +52,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//AppDbInitializer.Seed(app);
 
 app.Run();

@@ -8,4 +8,5 @@ import {faCartShopping} from '@fortawesome/free-solid-svg-icons';
 })
 export class NavbarComponent {
   faCartShopping = faCartShopping;
+  constructor() {}
 }
