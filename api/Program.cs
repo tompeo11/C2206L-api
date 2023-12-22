@@ -1,7 +1,9 @@
 using api.DAO;
 using api.Data;
+using api.Entities.Identity;
 using api.Exceptions;
 using api.Middleware;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
@@ -10,6 +12,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext> (option => option.UseSqlServer(builder.Configuration.GetConnectionString("AnyConnectionName")));
 builder.Services.AddControllers();
+
+builder.Services
+    .AddIdentityCore<AppUser>(option => {
+        option.Password.RequireNonAlphanumeric = false;
+        option.Password.RequireDigit = false;
+        option.Password.RequireLowercase = false;
+        option.Password.RequireUppercase = false;
+    })
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddSignInManager<SignInManager<AppUser>>();
+
+builder.Services.AddAuthentication();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(p => p.AddPolicy("MyCors", build => {
@@ -48,9 +62,12 @@ app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
 app.UseStaticFiles();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();
 
+//await AppDbInitializer.Seed(app);
 
 app.Run();
