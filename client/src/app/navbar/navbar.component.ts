@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {faCartShopping} from '@fortawesome/free-solid-svg-icons';
+import { BasketService } from '../basket/basket.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,5 +9,5 @@ import {faCartShopping} from '@fortawesome/free-solid-svg-icons';
 })
 export class NavbarComponent {
   faCartShopping = faCartShopping;
-  constructor() {}
+  constructor(public basketService: BasketService) { }
 }

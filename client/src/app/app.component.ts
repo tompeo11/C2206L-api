@@ -14,6 +14,7 @@ export class AppComponent implements OnInit{
     var basketId = localStorage.getItem('basket_id');
 
     if (basketId) {
+      console.log(basketId);
       this.basketService.getBasket(basketId).subscribe(() => {});
     }
   }

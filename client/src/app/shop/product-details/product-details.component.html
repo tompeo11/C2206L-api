@@ -6,10 +6,10 @@
         <h3>{{product?.name}}</h3>
         <p style="font-size: 1.5em;">{{product?.price | currency}}</p>
         <div class="d-flex justify-content-center-start align-items-center ">
-            <fa-icon [icon]="faPlusCircle" style="cursor: pointer; font-size: 1.5em;" class="text-warning"></fa-icon>
-            <span class="fw-bold mx-2" style="font-size: 1.5em;">2</span>
-            <fa-icon [icon]="faMinusCircle" style="cursor: pointer; font-size: 1.5em;" class="text-warning"></fa-icon>
-            <button class="btn btn-outline-secondary btn-lg ms-4">Update Cart</button>
+            <fa-icon [icon]="faMinusCircle" (click)="decrementQuantity()" style="cursor: pointer; font-size: 1.5em;" class="text-warning"></fa-icon>
+            <span class="fw-bold mx-2" style="font-size: 1.5em;">{{this.quantity}}</span>
+            <fa-icon [icon]="faPlusCircle" (click)="incrementQuantity()" style="cursor: pointer; font-size: 1.5em;" class="text-warning"></fa-icon>
+            <button class="btn btn-outline-secondary btn-lg ms-4" (click)="this.addItemToBasket()">Add to Cart</button>
         </div>
 
         <div class="row mt-5">

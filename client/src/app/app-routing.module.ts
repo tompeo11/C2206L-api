@@ -6,7 +6,7 @@ const routes: Routes = [
   {path: 'home', loadChildren: () => import('./home/home.module').then(mod => mod.HomeModule)},
   {path: 'basket', loadChildren: () => import('./basket/basket.module').then(mod => mod.BasketModule)},
   {path: 'test-error', loadChildren: () => import('./test-error/test-error.module').then(mod => mod.TestErrorModule)},
-  {path: '**', redirectTo: '/home', pathMatch: 'full'},
+  {path: '**', redirectTo: '/', pathMatch: 'full'},
 ];
 
 @NgModule({

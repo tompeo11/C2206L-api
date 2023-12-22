@@ -1,22 +1,19 @@
-<!-- <div class="bg-light px-4 py-3 text-uppercase fw-bold ">
-    Order Sumary
+<div class="bg-light px-4 py-3 text-uppercase fw-bold">
+    Order Summary
 </div>
-<div class="p-4 ">
-    <p class="font-italic mb-4 ">Shipping cost ...</p>
-    <ul class="list-unstyled mb-4 ">
-        <li class="d-flex justify-content-between py-3 border-bottom ">
-            <strong class="text-muted ">Order subtotal</strong>
-            <strong class="">{{this.basketService.basketTotal.subtotal}}</strong>
+<div class="p-4">
+    <ul class="list-unstyled mb-4">
+        <li class="d-flex justify-content-between py-3 border-bottom">
+            <strong class="text-muted">Order subtotal</strong>
+            <strong>{{this.basketService.basketTotal.subtotal | currency}}</strong>
         </li>
-
-        <li class="d-flex justify-content-between py-3 border-bottom ">
-            <strong class="text-muted ">Shipping cost</strong>
-            <strong class="">{{this.basketService.basketTotal.shipping}}</strong>
+        <li class="d-flex justify-content-between py-3 border-bottom">
+            <strong class="text-muted">Shipping cost</strong>
+            <strong>{{this.basketService.basketTotal.shipping | currency}}</strong>
         </li>
-
-        <li class="d-flex justify-content-between py-3 border-bottom ">
-            <strong class="text-muted ">Total</strong>
-            <strong class="">{{this.basketService.basketTotal.total}}</strong>
+        <li class="d-flex justify-content-between py-3 border-bottom">
+            <strong class="text-muted">Total</strong>
+            <strong>{{this.basketService.basketTotal.total | currency}}</strong>
         </li>
     </ul>
-</div> -->
+</div>
